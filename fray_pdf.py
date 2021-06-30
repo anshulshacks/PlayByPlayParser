@@ -19,8 +19,9 @@ pageObj = pdfReader.getPage(8)
 
 # Class for a play.
 class Play:
-    def __init__(self, down, time, formation, qb, direction, reciever, destination, length, tackler, starting_location) -> None:
-        self.down = down
+    def __init__(self, down_num, down_length, time, formation, qb, direction, reciever, destination, length, tackler, starting_location) -> None:
+        self.down_num = down_num
+        self.down_length = down_length
         self.time = time
         self.formation = formation
         self.qb = qb
@@ -41,7 +42,8 @@ tokens = [
     'LOCATION_SIDE',
     'LOCATION_YARDAGE',
     'YARDAGE',
-    'DOWN',
+    'DOWN_NUM',
+    'DOWN_LENGTH',
     'TACKLER',
     'FILLER',
     'TYPE',
@@ -58,12 +60,16 @@ def t_DOWN_NUM(t):
     r'[1-4](?=-\d+)'
     t.value = int(t.value)
     return t
+def t_DOWN_LENGTH(t):
+    r'(?<=\d-)\d+ '
+    t.value = int(t.value)
+    return t
 t_LOCATION_SIDE = r'[A-Z][A-Z][A-Z]?'
 t_LOCATION_YARDAGE = r'\d+'
 t_YARDAGE = r'\d+\syards?'
 t_TACKLER = r'\([A-Z]\.[a-zA-Z]+\)'
 t_TYPE = r'pass'
-t_FILLER = r'(to|for|\.)'
+t_FILLER = r'(to|for|\.|-)'
 t_ignore = ' '
 
 def t_error(t):
@@ -89,7 +95,7 @@ def p_play(p):
     '''
     print(p[1].formation)
     print(p[1].time)
-    print(p[1].down)
+    print(p[1].down_num)
     print(p[1].qb)
     print(p[1].tackler)
     print(p[1].reciever)
@@ -99,9 +105,9 @@ def p_play(p):
 
 def p_pass(p):
     '''
-    pass : DOWN location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
+    pass : DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
     '''
-    p[0] = Play(p[1], p[3], p[4], p[5], p[7], p[9], p[11], p[13], p[14], p[2])
+    p[0] = Play(p[1], p[3], p[6], p[7], p[8], p[10], p[12], p[14], p[16], p[17], p[5])
     # print(Play.formation)
 
 # def p_simple(p):

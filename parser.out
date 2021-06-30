@@ -4,14 +4,15 @@ Grammar
 
 Rule 0     S' -> play
 Rule 1     play -> pass
-Rule 2     pass -> DOWN location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
+Rule 2     pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
 Rule 3     direction -> PASS_LENGTH PASS_DIRECTION
 Rule 4     location -> LOCATION_SIDE LOCATION_YARDAGE
 
 Terminals, with rules where they appear
 
-DOWN                 : 2
-FILLER               : 2 2 2
+DOWN_LENGTH          : 2
+DOWN_NUM             : 2
+FILLER               : 2 2 2 2 2
 FORMATION            : 2
 LOCATION_SIDE        : 4
 LOCATION_YARDAGE     : 4
@@ -37,9 +38,9 @@ state 0
 
     (0) S' -> . play
     (1) play -> . pass
-    (2) pass -> . DOWN location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
+    (2) pass -> . DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
 
-    DOWN            shift and go to state 3
+    DOWN_NUM        shift and go to state 3
 
     play                           shift and go to state 1
     pass                           shift and go to state 2
@@ -59,35 +60,56 @@ state 2
 
 state 3
 
-    (2) pass -> DOWN . location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
-    (4) location -> . LOCATION_SIDE LOCATION_YARDAGE
+    (2) pass -> DOWN_NUM . FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
 
-    LOCATION_SIDE   shift and go to state 5
+    FILLER          shift and go to state 4
 
-    location                       shift and go to state 4
 
 state 4
 
-    (2) pass -> DOWN location . TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
+    (2) pass -> DOWN_NUM FILLER . DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
 
-    TIME            shift and go to state 6
+    DOWN_LENGTH     shift and go to state 5
 
 
 state 5
 
-    (4) location -> LOCATION_SIDE . LOCATION_YARDAGE
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH . FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
 
-    LOCATION_YARDAGE shift and go to state 7
+    FILLER          shift and go to state 6
 
 
 state 6
 
-    (2) pass -> DOWN location TIME . FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER . location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
+    (4) location -> . LOCATION_SIDE LOCATION_YARDAGE
 
-    FORMATION       shift and go to state 8
+    LOCATION_SIDE   shift and go to state 8
 
+    location                       shift and go to state 7
 
 state 7
+
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location . TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
+
+    TIME            shift and go to state 9
+
+
+state 8
+
+    (4) location -> LOCATION_SIDE . LOCATION_YARDAGE
+
+    LOCATION_YARDAGE shift and go to state 10
+
+
+state 9
+
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME . FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
+
+    FORMATION       shift and go to state 11
+
+
+state 10
 
     (4) location -> LOCATION_SIDE LOCATION_YARDAGE .
 
@@ -95,97 +117,97 @@ state 7
     FILLER          reduce using rule 4 (location -> LOCATION_SIDE LOCATION_YARDAGE .)
 
 
-state 8
-
-    (2) pass -> DOWN location TIME FORMATION . PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
-
-    PLAYER          shift and go to state 9
-
-
-state 9
-
-    (2) pass -> DOWN location TIME FORMATION PLAYER . TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
-
-    TYPE            shift and go to state 10
-
-
-state 10
-
-    (2) pass -> DOWN location TIME FORMATION PLAYER TYPE . direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
-    (3) direction -> . PASS_LENGTH PASS_DIRECTION
-
-    PASS_LENGTH     shift and go to state 12
-
-    direction                      shift and go to state 11
-
 state 11
 
-    (2) pass -> DOWN location TIME FORMATION PLAYER TYPE direction . FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION . PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
 
-    FILLER          shift and go to state 13
+    PLAYER          shift and go to state 12
 
 
 state 12
 
-    (3) direction -> PASS_LENGTH . PASS_DIRECTION
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER . TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
 
-    PASS_DIRECTION  shift and go to state 14
+    TYPE            shift and go to state 13
 
 
 state 13
 
-    (2) pass -> DOWN location TIME FORMATION PLAYER TYPE direction FILLER . PLAYER FILLER location FILLER YARDAGE TACKLER
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE . direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
+    (3) direction -> . PASS_LENGTH PASS_DIRECTION
 
-    PLAYER          shift and go to state 15
+    PASS_LENGTH     shift and go to state 15
 
+    direction                      shift and go to state 14
 
 state 14
+
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction . FILLER PLAYER FILLER location FILLER YARDAGE TACKLER
+
+    FILLER          shift and go to state 16
+
+
+state 15
+
+    (3) direction -> PASS_LENGTH . PASS_DIRECTION
+
+    PASS_DIRECTION  shift and go to state 17
+
+
+state 16
+
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER . PLAYER FILLER location FILLER YARDAGE TACKLER
+
+    PLAYER          shift and go to state 18
+
+
+state 17
 
     (3) direction -> PASS_LENGTH PASS_DIRECTION .
 
     FILLER          reduce using rule 3 (direction -> PASS_LENGTH PASS_DIRECTION .)
 
 
-state 15
-
-    (2) pass -> DOWN location TIME FORMATION PLAYER TYPE direction FILLER PLAYER . FILLER location FILLER YARDAGE TACKLER
-
-    FILLER          shift and go to state 16
-
-
-state 16
-
-    (2) pass -> DOWN location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER . location FILLER YARDAGE TACKLER
-    (4) location -> . LOCATION_SIDE LOCATION_YARDAGE
-
-    LOCATION_SIDE   shift and go to state 5
-
-    location                       shift and go to state 17
-
-state 17
-
-    (2) pass -> DOWN location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location . FILLER YARDAGE TACKLER
-
-    FILLER          shift and go to state 18
-
-
 state 18
 
-    (2) pass -> DOWN location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER . YARDAGE TACKLER
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER . FILLER location FILLER YARDAGE TACKLER
 
-    YARDAGE         shift and go to state 19
+    FILLER          shift and go to state 19
 
 
 state 19
 
-    (2) pass -> DOWN location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE . TACKLER
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER . location FILLER YARDAGE TACKLER
+    (4) location -> . LOCATION_SIDE LOCATION_YARDAGE
 
-    TACKLER         shift and go to state 20
+    LOCATION_SIDE   shift and go to state 8
 
+    location                       shift and go to state 20
 
 state 20
 
-    (2) pass -> DOWN location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER .
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location . FILLER YARDAGE TACKLER
 
-    $end            reduce using rule 2 (pass -> DOWN location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER .)
+    FILLER          shift and go to state 21
+
+
+state 21
+
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER . YARDAGE TACKLER
+
+    YARDAGE         shift and go to state 22
+
+
+state 22
+
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE . TACKLER
+
+    TACKLER         shift and go to state 23
+
+
+state 23
+
+    (2) pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER .
+
+    $end            reduce using rule 2 (pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER .)
 

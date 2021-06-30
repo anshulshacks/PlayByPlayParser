@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'DOWN FILLER FORMATION LOCATION_SIDE LOCATION_YARDAGE PASS_DIRECTION PASS_LENGTH PLAYER TACKLER TIME TYPE YARDAGE\n    play : pass\n    \n    pass : DOWN location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER\n    \n    direction : PASS_LENGTH PASS_DIRECTION\n    \n    location : LOCATION_SIDE LOCATION_YARDAGE\n    '
+_lr_signature = 'DOWN_LENGTH DOWN_NUM FILLER FORMATION LOCATION_SIDE LOCATION_YARDAGE PASS_DIRECTION PASS_LENGTH PLAYER TACKLER TIME TYPE YARDAGE\n    play : pass\n    \n    pass : DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER\n    \n    direction : PASS_LENGTH PASS_DIRECTION\n    \n    location : LOCATION_SIDE LOCATION_YARDAGE\n    '
     
-_lr_action_items = {'DOWN':([0,],[3,]),'$end':([1,2,20,],[0,-1,-2,]),'LOCATION_SIDE':([3,16,],[5,5,]),'TIME':([4,7,],[6,-4,]),'LOCATION_YARDAGE':([5,],[7,]),'FORMATION':([6,],[8,]),'FILLER':([7,11,14,15,17,],[-4,13,-3,16,18,]),'PLAYER':([8,13,],[9,15,]),'TYPE':([9,],[10,]),'PASS_LENGTH':([10,],[12,]),'PASS_DIRECTION':([12,],[14,]),'YARDAGE':([18,],[19,]),'TACKLER':([19,],[20,]),}
+_lr_action_items = {'DOWN_NUM':([0,],[3,]),'$end':([1,2,23,],[0,-1,-2,]),'FILLER':([3,5,10,14,17,18,20,],[4,6,-4,16,-3,19,21,]),'DOWN_LENGTH':([4,],[5,]),'LOCATION_SIDE':([6,19,],[8,8,]),'TIME':([7,10,],[9,-4,]),'LOCATION_YARDAGE':([8,],[10,]),'FORMATION':([9,],[11,]),'PLAYER':([11,16,],[12,18,]),'TYPE':([12,],[13,]),'PASS_LENGTH':([13,],[15,]),'PASS_DIRECTION':([15,],[17,]),'YARDAGE':([21,],[22,]),'TACKLER':([22,],[23,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'play':([0,],[1,]),'pass':([0,],[2,]),'location':([3,16,],[4,17,]),'direction':([10,],[11,]),}
+_lr_goto_items = {'play':([0,],[1,]),'pass':([0,],[2,]),'location':([6,19,],[7,20,]),'direction':([13,],[14,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,8 +27,8 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> play","S'",1,None,None,None),
-  ('play -> pass','play',1,'p_play','fray_pdf.py',78),
-  ('pass -> DOWN location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER','pass',14,'p_pass','fray_pdf.py',84),
-  ('direction -> PASS_LENGTH PASS_DIRECTION','direction',2,'p_direction','fray_pdf.py',97),
-  ('location -> LOCATION_SIDE LOCATION_YARDAGE','location',2,'p_location','fray_pdf.py',102),
+  ('play -> pass','play',1,'p_play','fray_pdf.py',94),
+  ('pass -> DOWN_NUM FILLER DOWN_LENGTH FILLER location TIME FORMATION PLAYER TYPE direction FILLER PLAYER FILLER location FILLER YARDAGE TACKLER','pass',17,'p_pass','fray_pdf.py',108),
+  ('direction -> PASS_LENGTH PASS_DIRECTION','direction',2,'p_direction','fray_pdf.py',121),
+  ('location -> LOCATION_SIDE LOCATION_YARDAGE','location',2,'p_location','fray_pdf.py',126),
 ]
