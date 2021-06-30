@@ -11,13 +11,13 @@ pdfReader = PyPDF4.PdfFileReader(pdfFileObj)
 pageObj = pdfReader.getPage(8)
 # print(pageObj.extractText())
  
-# Takes a sentence and returns the data from that sentence.
+# Takes a sentence and returns the data from that sentence as an object.
 # E.G. Play clock, pass or run, players, down, ball location
 # Example sentence: 
 # (:50) (Shotgun) B.Roethlisberger pass short right to L.Bell to PIT 43 for 1 yard (M.Butler). 1-10-PIT 42
 
 
-
+# Class for a play.
 class Play:
     def __init__(self, down, time, formation, qb, direction, reciever, destination, length, tackler, starting_location) -> None:
         self.down = down
@@ -31,6 +31,7 @@ class Play:
         self.tackler = tackler
         self.starting_location = starting_location
 
+# List of all tokens
 tokens = [
     'TIME',
     'PLAYER',
@@ -46,6 +47,7 @@ tokens = [
     'TYPE',
 ]
 
+# Defining tokens
 t_TIME = r'\(\d*:\d+\)'
 t_PLAYER = r'[A-Z]\.[a-zA-Z]+'
 t_FORMATION = r'\([A-Z]\w+\)'
@@ -67,6 +69,8 @@ t_ignore = ' '
 def t_error(t):
     print('Illegal characters')
     t.lexer.skip(1)
+
+
 string_to_parse = '1-10-PIT 42 (:50) (Shotgun) B.Roethlisberger pass short right to L.Bell to PIT 43 for 1 yard (M.Butler)'
 
 lexer = lex.lex()
@@ -77,6 +81,8 @@ lexer = lex.lex()
 #     if not tok:
 #         break
 #     print(tok)
+
+# Setting up parsers/grammer rules
 def p_play(p):
     '''
     play : pass
